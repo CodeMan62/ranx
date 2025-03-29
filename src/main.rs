@@ -2,6 +2,9 @@ use clap::Parser;
 use tracing::{info, Level};
 use tracing_subscriber::FmtSubscriber;
 mod config;
+mod error;
+mod server;
+mod proxy;
 use anyhow::Result;
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
@@ -12,6 +15,7 @@ struct Args {
     #[arg(short, long, default_value = "info")]
     log_level: String,
 }
+#[allow(unused_variables)]
 #[tokio::main]
 async fn main() -> Result<()> {
     let args = Args::parse();
