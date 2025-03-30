@@ -1,104 +1,161 @@
-# Rust Reverse Proxy
+# Ranx - High-Performance Reverse Proxy
 
-A high-performance reverse proxy implementation in Rust, designed as a learning project to understand Rust's systems programming capabilities and network programming features.
+Ranx is a modern, high-performance reverse proxy written in Rust. It provides advanced features like load balancing, rate limiting, circuit breaking, and real-time metrics collection.
 
-## What is a Reverse Proxy?
-A reverse proxy is a server that sits between client devices and a web server, forwarding client requests to the appropriate backend server. It provides benefits like load balancing, SSL termination, caching, and security.
+## Features
 
-## Features to Implement
-
-### Phase 1: Basic Proxy Implementation
-- [x] Basic HTTP request forwarding
-- [x] Simple configuration system for backend servers
-- [x] Request/Response handling
-- [x] Error handling and logging
-
-### Phase 2: Advanced Features
-- [ ] Load balancing (Round-robin algorithm)
-- [ ] Health checks for backend servers
-- [ ] Basic caching mechanism
-- [ ] Request/Response headers modification
-- [ ] SSL/TLS termination
-
-### Phase 3: Performance & Monitoring
-- [ ] Connection pooling
-- [ ] Metrics collection (requests/second, response times)
-- [ ] Async I/O operations
-- [ ] Basic admin dashboard for monitoring
-
-### Phase 4: Security & Additional Features
-- [ ] Rate limiting
-- [ ] Basic authentication
-- [ ] IP whitelisting/blacklisting
-- [ ] Request filtering
-- [ ] Compression support
-
-## Technical Learning Goals
-1. Rust's ownership and borrowing system
-2. Async programming with Tokio
-3. Error handling with Result and Option
-4. Networking concepts in Rust
-5. Configuration management
-6. Logging and metrics
-7. Testing in Rust
-
-## Project Structure
-```
-reverseProxy/
-├── src/
-│   ├── main.rs           # Application entry point
-│   ├── config/           # Configuration handling
-│   ├── proxy/            # Core proxy logic
-│   ├── balancer/         # Load balancing logic
-│   ├── cache/            # Caching implementation
-│   ├── health/           # Health checking
-│   └── metrics/          # Metrics collection
-├── tests/                # Integration tests
-├── Cargo.toml           # Dependencies and metadata
-└── README.md            # Project documentation
-```
-
-## Implementation Steps
-
-1. **Project Setup**
-   - Initialize project structure
-   - Set up basic dependencies
-   - Create configuration structure
-
-2. **Basic Proxy Implementation**
-   - Implement basic TCP listener
-   - Create HTTP request parser
-   - Set up connection forwarding
-   - Implement response handling
-
-3. **Configuration System**
-   - Create configuration file format
-   - Implement configuration loading
-   - Add backend server management
-
-4. **Load Balancing**
-   - Implement round-robin algorithm
-   - Add backend server pool
-   - Create health check system
-
-5. **Performance Features**
-   - Add connection pooling
-   - Implement caching system
-   - Set up metrics collection
-
-6. **Security Features**
-   - Add rate limiting
-   - Implement authentication
-   - Set up request filtering
+- 🚀 **High Performance**: Built with Rust for maximum speed and reliability
+- 🔄 **Load Balancing**: Round-robin load balancing across multiple backend servers
+- 🛡️ **Rate Limiting**: Protect your services from abuse with configurable rate limits
+- ⚡ **Circuit Breaking**: Automatic failure detection and recovery
+- 📊 **Metrics Collection**: Real-time monitoring of request/response metrics
+- 🔒 **TLS Support**: Secure communication with SSL/TLS
+- 🎯 **Path-based Routing**: Flexible routing based on URL paths
+- 📝 **Structured Logging**: Comprehensive logging with different log levels
 
 ## Getting Started
 
-(To be added as we progress with implementation)
+### Prerequisites
 
-## Dependencies
-- tokio (async runtime)
-- hyper (HTTP implementation)
-- config (configuration management)
-- serde (serialization/deserialization)
-- log (logging)
-- metrics (monitoring)
+- Rust 1.70 or later
+- Cargo (comes with Rust)
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/ranx.git
+cd ranx
+```
+
+2. Build the project:
+```bash
+cargo build --release
+```
+
+3. Run the proxy:
+```bash
+cargo run --release
+```
+
+### Configuration
+
+Create a `config.yaml` file in the project root:
+
+```yaml
+server:
+  listen_addr: 127.0.0.1:8080
+  # Optional TLS configuration
+  # tls:
+  #   cert_path: ./certs/cert.pem
+  #   key_path: ./certs/key.pem
+
+backends:
+  api_servers:
+    servers:
+      - "http://localhost:3000"
+      - "http://localhost:3001"
+    timeout: 30
+  web:
+    servers:
+      - "http://localhost:8000"
+    timeout: 60
+
+routes:
+  - path: "/api"
+    backend: "api_servers"
+    strip_prefix: true
+  - path: "/"
+    backend: "web"
+    strip_prefix: false
+```
+
+## Features in Detail
+
+### Load Balancing
+
+Ranx supports round-robin load balancing across multiple backend servers. When a backend has multiple servers configured, requests are distributed evenly across them.
+
+### Rate Limiting
+
+Protect your services from abuse with configurable rate limits:
+
+```yaml
+rate_limit:
+  requests_per_second: 100
+  burst_size: 50
+```
+
+### Circuit Breaking
+
+Automatic failure detection and recovery:
+
+```yaml
+circuit_breaker:
+  failure_threshold: 5
+  reset_timeout: 30
+  half_open_timeout: 10
+```
+
+### Metrics Collection
+
+Real-time monitoring of:
+- Request/response counts
+- Latency statistics
+- Error rates
+- Circuit breaker states
+
+## Production Deployment
+
+### Docker Support
+
+Build the Docker image:
+```bash
+docker build -t ranx .
+```
+
+Run the container:
+```bash
+docker run -p 8080:8080 -v $(pwd)/config.yaml:/app/config.yaml ranx
+```
+
+### Monitoring
+
+Ranx provides metrics endpoints for integration with monitoring systems:
+- `/metrics`: Prometheus-compatible metrics
+- `/health`: Health check endpoint
+- `/status`: Detailed proxy status
+
+## Performance
+
+- Handles thousands of concurrent connections
+- Sub-millisecond latency for most operations
+- Memory-efficient design
+- Zero-copy request/response handling
+
+## Security
+
+- TLS support for secure communication
+- Rate limiting to prevent abuse
+- Circuit breaking to prevent cascading failures
+- Header sanitization
+- IP-based access control
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Author
+
+Your Name - [@yourtwitter](https://twitter.com/yourtwitter)
+
+## Acknowledgments
+
+- Built with [Rust](https://www.rust-lang.org/)
+- HTTP handling with [Hyper](https://github.com/hyperium/hyper)
+- Configuration with [serde](https://github.com/serde-rs/serde)
+- Logging with [tracing](https://github.com/tokio-rs/tracing)
