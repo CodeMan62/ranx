@@ -1,0 +1,24 @@
+{
+  "name": "ranx",
+  "version": "1.0.0",
+  "description": "Ranx is a high-performance, feature-rich reverse proxy built in Rust. It's designed to be fast, reliable, and easy to configure.",
+  "main": "backend_server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodeMan62/ranx.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/CodeMan62/ranx/issues"
+  },
+  "homepage": "https://github.com/CodeMan62/ranx#readme",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
