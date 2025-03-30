@@ -1,0 +1,25 @@
+server:
+  listen_addr: 127.0.0.1:8080
+  # Optional TLS configuration
+  # tls:
+  #   cert_path: ./certs/cert.pem
+  #   key_path: ./certs/key.pem
+
+backends:
+  api_servers:
+    servers:
+      - "http://localhost:3000"
+      - "http://localhost:3001"
+    timeout: 30
+  web:
+    servers:
+      - "http://localhost:8000"
+    timeout: 60
+
+routes:
+  - path: "/api"
+    backend: "api_servers"
+    strip_prefix: true
+  - path: "/"
+    backend: "web"
+    strip_prefix: false
