@@ -151,7 +151,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Author
 
-Your Name - [@yourtwitter](https://twitter.com/yourtwitter)
+Your Name - [@Himanhsu](https://x.com/HimanshuSh58438)
 
 ## Acknowledgments
 
